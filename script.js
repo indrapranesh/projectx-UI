@@ -35,8 +35,12 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     });
      
     blog.getUsername =function(userId){
-      
+      if (userId>0){
       return blog.users[userId].attributes.name ;
+    }
+    else{
+      return '';
+    }
     }
    
 
@@ -90,7 +94,8 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         method : 'DELETE',
         url  : 'http://localhost:3000/logout/'+blog.getCurrentToken(),
         headers: {
-          'Content-Type': "application/json"
+          'Content-Type': "application/json",
+          'X-Api-Key' : blog.getCurrentToken()
         },
       })
       $window.sessionStorage.currentUserToken='';
@@ -245,13 +250,15 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         method : 'POST',
         url : 'http://localhost:3000/comments',
         headers: {
-          'Content-Type': "application/json"
+          'Content-Type': "application/json",
+          'X-Api-Key' : blog.getCurrentToken()
         },
         data : $scope.data
       })
       .then(function(response)
       {
         $scope.msg = response.data;
+
       })
       $scope.comment ={};
 
