@@ -8,7 +8,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
   var app = angular.module('blogApp',[]);
 
   
-  app.controller('BlogController', ['$http', '$window', function($http,$window){
+  app.controller('BlogController', ['$http', '$window', '$rootScope' , function($http,$window,$rootScope){
     
      var blog = this;
     
@@ -30,11 +30,11 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     {
     blog.users[users[i].id] = users[i];
     }
-    console.log(blog.users);
+   // console.log(blog.users);
       
     });
-
-
+     var z=Date.now();
+     console.log(z);
     blog.getUsername =function(userId){
       
       return blog.users[userId].attributes.name ;
@@ -42,7 +42,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
     $window.sessionStorage.testing = "testuser";
     blog.getCurrentUser =function() {
-      console.log("getCurrentUser :" + JSON.stringify($window.sessionStorage.currentUserId));
+      //console.log("getCurrentUser :" + JSON.stringify($window.sessionStorage.currentUserId));
        
       return $window.sessionStorage.currentUserId;
       //if (UserService.currentUser()!="") {
@@ -52,10 +52,22 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     
 
     blog.tab = 'blog';
+
+
+     $rootScope.$on("selectTabMethod", function(){
+
+           blog.selectTab("blog");
+        });
     
     blog.selectTab = function(setTab){
+      if ((setTab=='new' || setTab>=0) && !(blog.getCurrentUser()>0)) {
+        blog.tab='login'
+      }
+      else{
       blog.tab = setTab;
+    }
       console.log(blog.tab)
+
     };
     
     blog.isSelected = function(checkTab){
@@ -115,7 +127,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
 
 
-  app.controller('loginController', function($scope, $http,$window) {
+  app.controller('loginController', function($scope, $http,$window,$rootScope) {
     $scope.message = 'Login Page';
     $scope.user = {};
       $scope.newuser = {};
@@ -141,6 +153,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     }
 
     $scope.signin = function() {
+
      console.log($scope.session);
       $scope.data = {session : $scope.session};
       console.log($scope.data);
@@ -154,9 +167,11 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       })
       .then(function(response)
       {
+
         console.log("singin" + JSON.stringify(response.data));
         $window.sessionStorage.currentUserId = response.data.data.id;
         console.log("signin :" + JSON.stringify($window.sessionStorage.currentUserId));
+        $rootScope.$emit("selectTabMethod", {});
       })
     }
   });
