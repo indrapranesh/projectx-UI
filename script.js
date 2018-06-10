@@ -6,8 +6,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
 (function(){
   var app = angular.module('blogApp',[]);
+
   
-  app.controller('BlogController', ['$http', function($http){
+  app.controller('BlogController', ['$http', '$window', function($http,$window){
     
      var blog = this;
     
@@ -20,8 +21,34 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       
     });
     
-    
+     $http.get('http://localhost:3000/users').success(function(data){
+      var users = data.data;
+     //console.log(blog.users);
 
+    var obj = {};
+    for (i = 0; i < users.length; i++)
+    {
+    blog.users[users[i].id] = users[i];
+    }
+    console.log(blog.users);
+      
+    });
+
+
+    blog.getUsername =function(userId){
+      
+      return blog.users[userId].attributes.name ;
+    }
+
+    $window.sessionStorage.testing = "testuser";
+    blog.getCurrentUser =function() {
+      console.log("getCurrentUser :" + JSON.stringify($window.sessionStorage.currentUserId));
+       
+      return $window.sessionStorage.currentUserId;
+      //if (UserService.currentUser()!="") {
+       // return $window.sessionStorage.currentUser.data.id; 
+      // body...
+    }
     
 
     blog.tab = 'blog';
@@ -56,6 +83,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 */
   
  app.controller('postController', function($scope, $http,$window ) {
+
   
     $scope.message = 'New Post Page';
     $scope.post = {};
@@ -87,7 +115,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
 
 
-  app.controller('loginController', function($scope, $http) {
+  app.controller('loginController', function($scope, $http,$window) {
     $scope.message = 'Login Page';
     $scope.user = {};
       $scope.newuser = {};
@@ -126,7 +154,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       })
       .then(function(response)
       {
-        $scope.msg = response.data;
+        console.log("singin" + JSON.stringify(response.data));
+        $window.sessionStorage.currentUserId = response.data.data.id;
+        console.log("signin :" + JSON.stringify($window.sessionStorage.currentUserId));
       })
     }
   });
@@ -134,41 +164,52 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
 
   
-  app.controller('CommentController', function($scope,$http,$window){
+  app.controller('CommentController', function($scope,$http){
     /*this.comment = {};
     this.addComment = function(post){
       this.comment.createdOn = Date.now();
       post.comments.push(this.comment);
       this.comment ={};
     };*/
-   this.comment={}
+  /* this.comment={}
      this.addcomment = function(post){
       this.comment.createdOn = Date.now();
       post.attributes.comments.push(this.comment);
       this.comment ={};
-    }
+    }*/
 
 
 
-   /* $scope.addlike = function(){
+
+    $scope.addlike = function(post){
+      post.attributes.like = post.attributes.like+1;
       $http({
         method : 'POST',
-        url  : 'http://localhost:3000/like/{{post.id}}',
+        url  : 'http://localhost:3000/like/'+post.id,
         headers: {
           'Content-Type': "application/json"
         },
       })
      
-    }*/
+    }
     
 
     $scope.comment={};
     $scope.data={};
     
  
+  /*   $scope.addcomment = function(post){
+     //$scope.comment.createdOn = Date.now();
+     console.log("addcomment");
+     console.log($scope.comment);
+     console.log(post.attributes.comments);
+     
+     $scope.comment ={};
+   }*/
     
-    $scope.newcomment = function() {
+    $scope.newcomment = function(post) {
       console.log($scope.comment);
+      post.attributes.comments.push($scope.comment);
       $scope.data = {comment : $scope.comment};
       console.log($scope.data);
         $http({
@@ -183,8 +224,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       {
         $scope.msg = response.data;
       })
+      $scope.comment ={};
 
-      $window.location.href = 'http://localhost:8001';
+      //$window.location.href = 'http://localhost:8001';
 
     }
 

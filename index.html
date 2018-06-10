@@ -39,6 +39,7 @@
                   <li><a href="#" ng-click="blog.selectTab('blog')">See All Posts</a></li> 
                   <li><a href="#" ng-click="blog.selectTab('new')">Add New Post</a></li>
                   <li><a href="#" ng-click="blog.selectTab('login')">Login</a></li>
+                  <li><a href="#" ng-click="blog.selectTab('login')">{{blog.getCurrentUser()}}</a></li>
                 </ul>
               </nav> 
             </div>
@@ -68,20 +69,20 @@
 
 
             <div class="comments" ng-controller="CommentController" >
-              <button  class="fa fa-heart" ng-click="post.attributes.like = post.attributes.like+1"> {{post.attributes.like}}</button>
+              <button  class="fa fa-heart" ng-click="addlike(post)" > {{post.attributes.like}}</button>
               <h3>Comments</h3>
               <ul>
                <li ng-repeat="comment in post.attributes.comments">
                  "{{comment.comment}}"
-                 <!--cite>- <b>{{post.attributes.user.name}}</b></cite-->
+                 <cite>- <b>{{blog.getUsername(comment.user_id)}}</b></cite>
                </li>
               </ul>
-              <form name="commentForm" ng-submit="newcomment(blog.comments) && addcomment(post) && blog.selectTab($index)" novalidate>
+              <form name="commentForm" ng-submit="newcomment(post) && addcomment(post) && blog.selectTab($index)" novalidate>
               
                 
                 <h4>Add Comment</h4>
-                  <input type="text"  ng-model="comment.user_id" placeholder="user_id" required/>
-                  <input type="text" ng-model="comment.post_id" required>
+                  <input type="hidden"  ng-model="comment.user_id" ng-init="comment.user_id=blog.getCurrentUser()"/>
+                  <input type="hidden" ng-model="comment.post_id" ng-init="comment.post_id=post.id" required>
                   <input type="text" ng-model="comment.comment" required placeholder="Comment"/>
                   
                   <input type="submit" value="Submit" />
@@ -103,8 +104,8 @@
               <h2>Add New Post</h2>
           
                 <form name="postForm" ng-submit="newpost()" novalidate>
-                  <h4>User</h4>
-                  <input type="text" ng-model="post.user_id" >
+                  
+                  <input type="hidden" ng-model="post.user_id" ng-init="post.user_id=blog.getCurrentUser()" >
                   <h4>Body</h4>
                   <input ng-model="post.content" >
                   
