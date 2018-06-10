@@ -8,7 +8,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
   var app = angular.module('blogApp',[]);
 
   
-  app.controller('BlogController', ['$http', '$window', '$rootScope' , function($http,$window,$rootScope){
+  app.controller('BlogController', ['$http', '$window', '$rootScope', function( $http,$window,$rootScope){
     
      var blog = this;
     
@@ -33,12 +33,12 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
    // console.log(blog.users);
       
     });
-     var z=Date.now();
-     console.log(z);
+     
     blog.getUsername =function(userId){
       
       return blog.users[userId].attributes.name ;
     }
+   
 
     $window.sessionStorage.testing = "testuser";
     blog.getCurrentUser =function() {
@@ -49,8 +49,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
        // return $window.sessionStorage.currentUser.data.id; 
       // body...
     }
-    
-
+    blog.getCurrentToken =function() {
+      return $window.sessionStorage.currentUserToken;
+    }
     blog.tab = 'blog';
 
 
@@ -83,6 +84,18 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       blog.tab = 0;
       blog.post ={};
     };   
+    blog.signout = function(){
+      console.log("test");
+      $http({
+        method : 'DELETE',
+        url  : 'http://localhost:3000/logout/'+blog.getCurrentToken(),
+        headers: {
+          'Content-Type': "application/json"
+        },
+      })
+      $window.sessionStorage.currentUserToken='';
+     $window.sessionStorage.currentUserId=0;
+    } 
     
   }]);
 
@@ -170,6 +183,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
         console.log("singin" + JSON.stringify(response.data));
         $window.sessionStorage.currentUserId = response.data.data.id;
+        $window.sessionStorage.currentUserToken = response.data.data.attributes.token;
         console.log("signin :" + JSON.stringify($window.sessionStorage.currentUserId));
         $rootScope.$emit("selectTabMethod", {});
       })

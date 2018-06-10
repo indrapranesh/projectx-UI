@@ -38,8 +38,9 @@
                 <ul>
                   <li><a href="#" ng-click="blog.selectTab('blog')">See All Posts</a></li> 
                   <li><a href="#" ng-click="blog.selectTab('new')">Add New Post</a></li>
-                  <li><a href="#" ng-click="blog.selectTab('login')">Login</a></li>
-                  <li><a href="#" ng-click="blog.selectTab('login')">{{blog.getCurrentUser()}}</a></li>
+                  <li><a href="#" ng-click="blog.selectTab('login')" ng-if="!(blog.getCurrentUser()>0)">Login</a></li>
+                  <li><a href="#" ng-click="blog.signout()" ng-if="blog.getCurrentUser()>0">Logout</a></li>
+                  <li><a href="#" ng-click="blog.selectTab('login') ">{{blog.getCurrentUser()}}</a></li>
                 </ul>
               </nav> 
             </div>
