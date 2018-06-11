@@ -49,7 +49,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     });
     blog.updatePost();
    // console.log(blog.users);
-      
+        
      
     blog.getUsername =function(userId){
       if (userId>0 && Object.keys(blog.users).length > 0 ){
@@ -222,7 +222,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 
 
   
-  app.controller('CommentController', function($scope,$http){
+  app.controller('CommentController', function($scope,$http,$window){
     /*this.comment = {};
     this.addComment = function(post){
       this.comment.createdOn = Date.now();
@@ -275,7 +275,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         url : 'https://mysterious-garden-51394.herokuapp.com/comments',
         headers: {
           'Content-Type': "application/json",
-          'X-Api-Key' : blog.getCurrentToken()
+          'X-Api-Key' : $window.sessionStorage.currentUserToken
         },
         data : $scope.data
       })
