@@ -21,10 +21,17 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       
     });
     
+    blog.updateUser =function(){
      $http.get('https://mysterious-garden-51394.herokuapp.com/users').success(function(data){
       var users = data.data;
      //console.log(blog.users);
+    }
+    $rootScope.$on("updateUserMethod", function(){
 
+           blog.updateUser();
+        });
+
+    blog.updateUser();
     var obj = {};
     for (i = 0; i < users.length; i++)
     {
@@ -167,6 +174,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       .then(function(response)
       {
         $scope.msg = response.data;
+        $rootScope.$emit("updateUserMethod", {});
       })
     }
 
