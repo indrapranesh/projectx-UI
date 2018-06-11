@@ -16,12 +16,12 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     blog.posts = {};
     blog.users = {};
 
-    $http.get('http://localhost:3000/posts').success(function(data){
+    $http.get('https://mysterious-garden-51394.herokuapp.com/posts').success(function(data){
       blog.posts = data.data;
       
     });
     
-     $http.get('http://localhost:3000/users').success(function(data){
+     $http.get('https://mysterious-garden-51394.herokuapp.com/users').success(function(data){
       var users = data.data;
      //console.log(blog.users);
 
@@ -92,7 +92,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       console.log("test");
       $http({
         method : 'DELETE',
-        url  : 'http://localhost:3000/logout/'+blog.getCurrentToken(),
+        url  : 'https://mysterious-garden-51394.herokuapp.com/logout/'+blog.getCurrentToken(),
         headers: {
           'Content-Type': "application/json",
           'X-Api-Key' : blog.getCurrentToken()
@@ -126,7 +126,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       console.log($scope.data);
       $http({
         method : 'POST',
-        url : 'http://localhost:3000/posts',
+        url : 'https://mysterious-garden-51394.herokuapp.com/posts',
         headers: {
           'Content-Type': "application/json"
         },
@@ -158,7 +158,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       console.log($scope.newuser);
       $http({
         method : 'POST',
-        url : 'http://localhost:3000/users',
+        url : 'https://mysterious-garden-51394.herokuapp.com/users',
         headers: {
           'Content-Type': "application/json"
         },
@@ -177,7 +177,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       console.log($scope.data);
       $http({
         method : 'POST',
-        url : 'http://localhost:3000/login',
+        url : 'https://mysterious-garden-51394.herokuapp.com/login',
         headers: {
           'Content-Type': "application/json"
         },
@@ -219,7 +219,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       post.attributes.like = post.attributes.like+1;
       $http({
         method : 'POST',
-        url  : 'http://localhost:3000/like/'+post.id,
+        url  : 'https://mysterious-garden-51394.herokuapp.com/like/'+post.id,
         headers: {
           'Content-Type': "application/json"
         },
@@ -248,7 +248,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       console.log($scope.data);
         $http({
         method : 'POST',
-        url : 'http://localhost:3000/comments',
+        url : 'https://mysterious-garden-51394.herokuapp.com/comments',
         headers: {
           'Content-Type': "application/json",
           'X-Api-Key' : blog.getCurrentToken()
