@@ -109,7 +109,7 @@
             <div class="newpost" ng-controller="postController"  ng-show="blog.isSelected('new')">
               <h2>Add New Post</h2>
           
-                <form name="postForm" ng-submit="newpost()" novalidate>
+                <form id="post-form" name="postForm" ng-submit="newpost()" novalidate>
                   
                   <input type="hidden" ng-model="post.user_id" ng-init="post.user_id=blog.getCurrentUser()" >
                   <h4>Body</h4>
@@ -136,9 +136,9 @@
                       </form>
 
                       <form id='register-form' >
-                        <input type="text" ng-model="user.name" placeholder="Name" required>
-                        <input type="email" ng-model="user.email" placeholder="Email" required>
-                        <input type="password" ng-model="user.password" placeholder="Password" required>
+                        <input type="text" ng-model="user.name" placeholder="Name" >
+                        <input type="email" ng-model="user.email" placeholder="Email" >
+                        <input type="password" ng-model="user.password" placeholder="Password" >
                         <button ng-click="signup()" type='submit'>Register</button>
                         <label for='form-switch'>Already Member ? Sign In Now..</label>
                       </form> 

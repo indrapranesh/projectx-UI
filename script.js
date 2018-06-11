@@ -158,6 +158,8 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         $rootScope.$emit("updatePostMethod", {});
         $rootScope.$emit("selectTabMethod", "blog");
       })
+      var form = document.getElementById("post-form");
+      form.reset();
       
     }
 
@@ -192,6 +194,8 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         $rootScope.$emit("updateUserMethod", {});
         $rootScope.$emit("selectTabMethod","login");
       })
+      var form = document.getElementById("register-form");
+      form.reset();
     }
 
     $scope.signin = function() {
