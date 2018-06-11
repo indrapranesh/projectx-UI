@@ -15,7 +15,9 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-animate.js"></script>
 <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/responsive.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/uttesh/ngletteravatar/master/dist/ngletteravatar.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
 
@@ -57,11 +59,14 @@
           <div class="row">
            <ul class="post-grid" ng-show="blog.isSelected('blog')">
          <li ng-repeat="post in blog.posts" class="col-s-12" ng-class="{ 'reset-s' : $index%3==0 }" ng-click="blog.selectTab($index)" >
-            <h3>{{post.attributes.user.name}}</h3>
+            
+            <h3><ng-letter-avatar data="post.attributes.user.name" shape="round"></ng-letter-avatar>{{post.attributes.user.name}}</h3>
             <p>{{post.attributes.content | limitTo:70}}...</p>
-            <p class="fa fa-comment push-left"> {{post.relationships.comments.data.length}}
+            <p class="fa  push-left">Posted <time  am-time-ago="post.attributes.created_at"></time></p>
+            <p>&nbsp</p>
+            <p class="fa fa-comment push-right">  {{  post.attributes.comments.length}} comments
             </p>
-            <p class="fa fa-heart push-right"> {{post.attributes.like}}
+            <p class="fa fa-heart push-right"> {{post.attributes.like}}     
             </p>
           </li>
         </ul>

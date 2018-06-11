@@ -5,9 +5,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 */
 
 (function(){
-  var app = angular.module('blogApp',[]);
+  var app = angular.module('blogApp',["angularMoment",'ngLetterAvatar']);
 
-  
+  console.log(Date.now());
   app.controller('BlogController', ['$http', '$window', '$rootScope', function( $http,$window,$rootScope){
     
      var blog = this;
@@ -25,24 +25,32 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
      $http.get('https://mysterious-garden-51394.herokuapp.com/users').success(function(data){
       var users = data.data;
      //console.log(blog.users);
+     var obj = {};
+    for (i = 0; i < users.length; i++)
+    {
+    blog.users[users[i].id] = users[i];
     }
-    $rootScope.$on("updateUserMethod", function(){
+
+    });
+  }
+
+
+
+     $rootScope.$on("updateUserMethod", function(){
 
            blog.updateUser();
         });
 
     blog.updateUser();
-    var obj = {};
-    for (i = 0; i < users.length; i++)
-    {
-    blog.users[users[i].id] = users[i];
-    }
+    
    // console.log(blog.users);
       
-    });
+    
      
     blog.getUsername =function(userId){
-      if (userId>0){
+      if (userId>0 && Object.keys(blog.users).length > 0 ){
+        console.log(blog.users[userId]);
+        console.log(userId);
       return blog.users[userId].attributes.name ;
     }
     else{
@@ -66,9 +74,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     blog.tab = 'blog';
 
 
-     $rootScope.$on("selectTabMethod", function(){
-
-           blog.selectTab("blog");
+     $rootScope.$on("selectTabMethod", function(event,tab){
+        console.log(tab);
+           blog.selectTab(tab);
         });
     
     blog.selectTab = function(setTab){
@@ -119,7 +127,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
   });
 */
   
- app.controller('postController', function($scope, $http,$window ) {
+ app.controller('postController', function($scope, $http,$rootScope ) {
 
   
     $scope.message = 'New Post Page';
@@ -142,8 +150,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       .then(function(response)
       {
         $scope.msg = response.data;
+        $rootScope.$emit("selectTabMethod", "blog");
       })
-      $window.location.href = 'http://localhost:8000';
+      
     }
 
     
@@ -175,6 +184,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       {
         $scope.msg = response.data;
         $rootScope.$emit("updateUserMethod", {});
+        $rootScope.$emit("selectTabMethod","login");
       })
     }
 
@@ -198,7 +208,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
         $window.sessionStorage.currentUserId = response.data.data.id;
         $window.sessionStorage.currentUserToken = response.data.data.attributes.token;
         console.log("signin :" + JSON.stringify($window.sessionStorage.currentUserId));
-        $rootScope.$emit("selectTabMethod", {});
+        $rootScope.$emit("selectTabMethod", "blog");
       })
     }
   });
