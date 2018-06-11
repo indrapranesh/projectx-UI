@@ -50,7 +50,6 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     blog.updatePost();
    // console.log(blog.users);
       
-    
      
     blog.getUsername =function(userId){
       if (userId>0 && Object.keys(blog.users).length > 0 ){

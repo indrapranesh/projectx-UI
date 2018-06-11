@@ -60,7 +60,7 @@
            <ul class="post-grid" ng-show="blog.isSelected('blog')">
          <li ng-repeat="post in blog.posts" class="col-s-12" ng-class="{ 'reset-s' : $index%3==0 }" ng-click="blog.selectTab($index)" >
             
-            <h3><ng-letter-avatar charCount="2" data="post.attributes.user.name" shape="round"></ng-letter-avatar>{{post.attributes.user.name}}</h3>
+            <h3><ng-letter-avatar dyamic="true" charCount="2" data="{{post.attributes.user.name}}" shape="round"></ng-letter-avatar> {{post.attributes.user.name}}</h3>
             <p>{{post.attributes.content | limitTo:70}}...</p>
             <p class="fa  push-left">Posted <time  am-time-ago="post.attributes.created_at"></time></p>
             
